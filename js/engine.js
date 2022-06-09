@@ -1,13 +1,20 @@
+//disable scrollbars
+document.documentElement.style.overflowX = "hidden";
+document.documentElement.style.overflowY = "hidden";
+
 const canvas = document.getElementById("canvas");
 canvas.width = CANVAS_WIDTH;
 canvas.height = CANVAS_HEIGHT;
 const ctx = canvas.getContext("2d");
 
 const bgImage = new Image();
-bgImage.src = "./img/map.png";
+bgImage.src = "./img/mappa.png";
 
 const playerImage = new Image();
-playerImage.src = "./img/link.png";
+playerImage.src = "./img/link2.png";
+
+const tokensImage = new Image();
+tokensImage.src = "./img/heart.png"
 
 //direction object
 direction = {
@@ -26,7 +33,7 @@ function handleDirection(key, mode) {
 	switch (key) {
 		case "ArrowUp":
 			direction.up = mode;
-			player.frames.currentV = 0;		
+			player.frames.currentV = 0;
 			break;
 		case "ArrowDown":
 			direction.down = mode;
@@ -44,53 +51,7 @@ function handleDirection(key, mode) {
 	lastKey = key;
 
 	player.isMoving = mode;
-		
-}
 
-//class Sprite
-class Sprite {
-	constructor({ position, image, frames = { currentH: 0, currentV: 0, maxH: 1, maxV: 1 } }) {
-		this.position = position;
-		this.image = image;
-		this.frames = { ...frames, elapsed: 0 };
-
-		this.image.onload = () => {
-			this.width = this.image.width / this.frames.maxH;
-			this.height = this.image.height / this.frames.maxV;
-		}
-
-		this.isMoving = false;
-	}
-
-	draw() {
-		ctx.drawImage(
-			this.image,
-			this.frames.currentH * this.width,
-			this.frames.currentV * this.height,
-			this.image.width / this.frames.maxH,
-			this.image.height / this.frames.maxV,
-			this.position.x,
-			this.position.y,
-			this.image.width / this.frames.maxH,
-			this.image.height / this.frames.maxV
-		)
-
-		if (this.isMoving) {
-			if (this.frames.maxH > 1) {
-				this.frames.elapsed++;
-
-				if (this.frames.elapsed % 5 === 0) {
-					if (this.frames.currentH < this.frames.maxH - 1) {
-						console.log(this.frames.currentH);
-						this.frames.currentH++;
-					} else {
-						this.frames.currentH = 0;
-						console.log(this.frames.currentH);
-					}
-				}
-			}
-		}
-	}
 }
 
 const background = new Sprite({
@@ -112,31 +73,13 @@ const player = new Sprite({
 		currentV: PLAYER_IMG.currentFrame.vertical,
 		maxH: PLAYER_IMG.imgxRow,
 		maxV: PLAYER_IMG.imgxCol
-	},
-	
+	}
 });
 
 //split collisions array in TILExROW element to have one array for each map row 
 const collisionMap = [];
 for (let i = 0; i < collisions.length; i += TILExROW) {
 	collisionMap.push(collisions.slice(i, TILExROW + i));
-}
-
-//class Boundary
-class Boundary {
-	static width = TILE_WIDTH * MAP_ZOOM_MULT;
-	static height = TILE_HEIGHT * MAP_ZOOM_MULT;
-
-	constructor({ position }) {
-		this.position = position;
-		this.width = TILE_WIDTH * MAP_ZOOM_MULT;
-		this.height = TILE_HEIGHT * MAP_ZOOM_MULT;
-	}
-
-	draw() {
-		ctx.fillStyle = "red";
-		ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
-	}
 }
 
 //create ar array of Boundary just for the tile "collision"
@@ -155,9 +98,6 @@ collisionMap.forEach((row, i) => {
 	})
 });
 
-//array of everything has to be moved when character moves
-const movables = [background, ...boundaries];
-
 //check collision
 function isCollision({ player, rectangle }) {
 	return (
@@ -168,9 +108,40 @@ function isCollision({ player, rectangle }) {
 	)
 }
 
+//split collisions array in TILExROW element to have one array for each map row 
+const tokenMap = [];
+for (let i = 0; i < tokensData.length; i += TILExROW) {
+	tokenMap.push(tokensData.slice(i, TILExROW + i));
+}
+
+//create ar array of Boundary just for the tile "collectible objects"
+const tokens = [];
+
+tokenMap.forEach((row, i) => {
+	row.forEach((tile, j) => {
+		if (tile === TILE_COLLECTOBJ) {
+			tokens.push(new Sprite({
+				position: {
+					x: j * TILE_WIDTH * MAP_ZOOM_MULT + MAP_OFFSET.x,
+					y: i * TILE_HEIGHT * MAP_ZOOM_MULT + MAP_OFFSET.y
+				},
+				image: tokensImage,
+				frames: {
+					currentH: 0,
+					currentV: 0,
+					maxH: 4,
+					maxV: 1
+				}
+			}))
+		}
+	})
+});
+
+//array of everything has to be moved when character moves
+const movables = [background, ...boundaries, ...tokens];
+
 //refres canvas image seamlessly
 function animate() {
-	window.requestAnimationFrame(animate);
 
 	//draw the background
 	background.draw();
@@ -180,12 +151,25 @@ function animate() {
 		boundary.draw();
 	});
 
+	
+	tokens.forEach((token, i) => {
+		token.isMoving = true;
+
+		token.draw();
+
+		//check collison between player and item
+		if (Math.hypot(token.position.x - player.position.x,
+			token.position.y - player.position.y) < (token.width / 2) + (player.width / 2)				
+		)
+			tokens.splice(i,1);
+	});
+
 	//draw the player
 	player.draw();
 
-	//move background based on direction
+	//move player and background based on direction
 	let canGo = true;
-	if (direction.up && lastKey === "ArrowUp") {
+	if (direction.up /*&& lastKey === "ArrowUp"*/) {
 		for (let i = 0; i < boundaries.length; i++) {
 			//check collision
 			const boundary = boundaries[i];
@@ -206,13 +190,13 @@ function animate() {
 
 		if (canGo) {
 			movables.forEach((movable) => {
-				movable.position.y += 1;
+				movable.position.y += 3;
 			});
-			player.position.y -= 2;
+			// player.position.y -= 2;
 		}
 	}
 
-	if (direction.down && lastKey === "ArrowDown") {
+	if (direction.down /*&& lastKey === "ArrowDown"*/) {
 		for (let i = 0; i < boundaries.length; i++) {
 			//check collision
 			const boundary = boundaries[i];
@@ -233,13 +217,13 @@ function animate() {
 
 		if (canGo) {
 			movables.forEach((movable) => {
-				movable.position.y -= 1;
+				movable.position.y -= 3;
 			});
-			player.position.y += 2;
+			// player.position.y += 2;
 		}
 	}
 
-	if (direction.left && lastKey === "ArrowLeft") {
+	if (direction.left /*&& lastKey === "ArrowLeft"*/) {
 		for (let i = 0; i < boundaries.length; i++) {
 			//check collision
 			const boundary = boundaries[i];
@@ -260,13 +244,13 @@ function animate() {
 
 		if (canGo) {
 			movables.forEach((movable) => {
-				movable.position.x += 1;
+				movable.position.x += 3;
 			});
-			player.position.x -= 2;
+			// player.position.x -= 2;
 		}
 	}
 
-	if (direction.right && lastKey === "ArrowRight") {
+	if (direction.right /*&& lastKey === "ArrowRight"*/) {
 		for (let i = 0; i < boundaries.length; i++) {
 			//check collision
 			const boundary = boundaries[i];
@@ -287,20 +271,16 @@ function animate() {
 
 		if (canGo) {
 			movables.forEach((movable) => {
-				movable.position.x -= 1;
+				movable.position.x -= 3;
 			});
-			player.position.x += 2;
+			// player.position.x += 2;
 		}
 	}
 
-
+	window.requestAnimationFrame(animate);
 
 
 }
+
 animate();
-
-
-
-
-
 
