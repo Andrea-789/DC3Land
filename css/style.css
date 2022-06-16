@@ -1,0 +1,193 @@
+.body {
+  height: 1985px;
+  /* width: 1134px; */
+  width: 100%;
+  text-align: center;
+  padding-top: 10px;
+
+}
+.cont{
+  display: inline-block;
+  position: relative;
+
+}
+
+.canvas{
+  box-shadow:
+    0px 0px 3px 0px rgb(231 170 0 / 100%)
+
+}
+
+.msg {
+  margin-top: 300px;
+  margin-left: 145px;
+  padding: 20px;
+  width: 670px;
+  box-shadow:
+    0 0 0 3px rgb(0 0 0 / 90%),
+    0 0 0 6px rgb(255 255 255 / 100%),
+    0 0 0 15px rgb(231 170 0 / 100%),
+    0 0 0 18px rgb(0 0 0 / 90%);
+  text-align: initial;
+}
+
+#textTop {
+  height: 100px;
+  width: 100%;
+  position: absolute;
+  display: inline;
+  font-family: ReturnofGanon;
+  padding-top: 15px;
+}
+
+#textBottom {
+  height: 60px;
+  width: 100%;
+  position: absolute;
+  display: inline;
+  font-family: ReturnofGanon;
+  bottom: 0px;
+
+}
+
+.cristalls {
+  height: 1em;
+  white-space: nowrap;
+  overflow: hidden;
+  background-color: transparent;
+  width: 32%;
+  height: 100px;
+  float: left;
+
+}
+
+.transaction {
+  height: 1em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-decoration: none;
+  background-color: transparent;
+  width: 80%;
+  height: 100px;
+  float: left;
+}
+
+.coordinates {
+  height: 1em;
+  white-space: nowrap;
+  overflow: hidden;
+  background-color: transparent;
+  width: 12%;
+  height: 108px;
+  float:right;
+  margin-right: 10px;
+}
+
+.land {
+  border: 3px solid #E7AA00;
+  border-radius: 20px;
+}
+
+.claim {
+  height: 1em;
+  /* white-space: nowrap; */
+  overflow: hidden;
+  background-color: transparent;
+  width: 12%;
+  height: 40px;
+  float:right;
+  border: 3px solid #E7AA00;
+  border-radius: 20px;
+  margin-right: 10px;
+  padding-top: 6px;
+  color: yellow;
+}
+
+@font-face {
+  font-family: ReturnofGanon;
+  src: url('../font/ReturnofGanon.TTF');
+}
+
+
+.text {
+  font-size: 30px;
+  height:200px;
+  font-family: ReturnofGanon;
+  color: white;
+  text-shadow: rgb(0, 0, 115) 3px 0px 0px, rgb(0, 0, 115) 2.83487px 0.981584px 0px, rgb(0, 0, 115) 2.35766px 1.85511px 0px, rgb(0, 0, 115) 1.62091px 2.52441px 0px, rgb(0, 0, 115) 0.705713px 2.91581px 0px, rgb(0, 0, 115) -0.287171px 2.98622px 0px, rgb(0, 0, 115) -1.24844px 2.72789px 0px, rgb(0, 0, 115) -2.07227px 2.16926px 0px, rgb(0, 0, 115) -2.66798px 1.37182px 0px, rgb(0, 0, 115) -2.96998px 0.42336px 0px, rgb(0, 0, 115) -2.94502px -0.571704px 0px, rgb(0, 0, 115) -2.59586px -1.50383px 0px, rgb(0, 0, 115) -1.96093px -2.27041px 0px, rgb(0, 0, 115) -1.11013px -2.78704px 0px, rgb(0, 0, 115) -0.137119px -2.99686px 0px, rgb(0, 0, 115) 0.850987px -2.87677px 0px, rgb(0, 0, 115) 1.74541px -2.43999px 0px, rgb(0, 0, 115) 2.44769px -1.73459px 0px, rgb(0, 0, 115) 2.88051px -0.838247px 0px;
+}
+
+.corner-decoration {
+  position: relative;
+}
+
+.corner-decoration.corner-left-top {
+  height: 23px;
+  width: 23px;
+  left: -38px;
+  top: -38px;
+  position: relative;
+}
+
+.corner-decoration.corner-right-top {
+  height: 23px;
+  width: 23px;
+  top: -38px;
+  right: -658px;
+  position: relative;
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
+
+.corner-decoration.corner-right-bottom {
+  height: 23px;
+  width: 23px;
+  right: -631px;
+  bottom: -251px;
+  position: relative;
+  -webkit-transform: scale(-1);
+  transform: scale(-1);
+}
+
+.corner-decoration.corner-left-bottom {
+  height: 23px;
+  width: 23px;
+  left: -119px;
+  bottom: -251px;
+  position: relative;
+  -webkit-transform: scaleY(-1);
+  transform: scaleY(-1);
+}
+
+
+.visible {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 1s linear;
+  position: absolute;
+  top: 0px;
+}
+
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 1s, opacity 1s linear;
+  position: absolute;
+  top: 0px;
+}
+
+#close {
+  font-family: ReturnofGanon
+}
+
+
+
+.close {
+  width: 100%;
+  bottom: 0px;
+  margin-bottom: -20px;
+  text-align: center;
+  font-size: 25px;
+  color: white;
+  text-shadow: rgb(0, 0, 115) 3px 0px 0px, rgb(0, 0, 115) 2.83487px 0.981584px 0px, rgb(0, 0, 115) 2.35766px 1.85511px 0px, rgb(0, 0, 115) 1.62091px 2.52441px 0px, rgb(0, 0, 115) 0.705713px 2.91581px 0px, rgb(0, 0, 115) -0.287171px 2.98622px 0px, rgb(0, 0, 115) -1.24844px 2.72789px 0px, rgb(0, 0, 115) -2.07227px 2.16926px 0px, rgb(0, 0, 115) -2.66798px 1.37182px 0px, rgb(0, 0, 115) -2.96998px 0.42336px 0px, rgb(0, 0, 115) -2.94502px -0.571704px 0px, rgb(0, 0, 115) -2.59586px -1.50383px 0px, rgb(0, 0, 115) -1.96093px -2.27041px 0px, rgb(0, 0, 115) -1.11013px -2.78704px 0px, rgb(0, 0, 115) -0.137119px -2.99686px 0px, rgb(0, 0, 115) 0.850987px -2.87677px 0px, rgb(0, 0, 115) 1.74541px -2.43999px 0px, rgb(0, 0, 115) 2.44769px -1.73459px 0px, rgb(0, 0, 115) 2.88051px -0.838247px 0px;
+}

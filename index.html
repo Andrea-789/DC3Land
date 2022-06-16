@@ -1,16 +1,63 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
-   
-<canvas id="canvas" style="border:1px solid #d3d3d3;"></canvas>
-  </body>
-  <script src="./js/config.js" charset="utf-8"></script>
-  <script src="./js/classes.js" charset="utf-8"></script>
-  <script src="./js/collisions.js" charset="utf-8"></script>
-  <script src="./js/tokensData.js" charset="utf-8"></script>
-  <script src="./js/engine.js" charset="utf-8"></script>
+
+<head>
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="./css/style.css">
+  <title></title>
+</head>
+
+<body class="body">
+
+  <div class="cont">
+    <div class="text" id="textTop">
+      <div class="cristalls">
+        {collected crystals <span id="crystals">0</span> - 9
+      </div>
+      
+      <div class="coordinates">
+        <canvas id="land" class="land"></canvas>
+      </div>
+    </div>
+
+    <div class="text" id="textBottom">
+      <div class="transaction">
+        <span id="transaction"></span>
+      </div>
+      
+      <div class="claim" onclick="claim()">
+        Claim
+      </div>
+    </div>
+
+    <canvas id="canvas" class="canvas"></canvas>
+
+    <div id="last" class="hidden">
+      <div class="msg" id="hide">
+        <img class="corner-decoration corner-left-top" src="./img/corner.png"></img>
+        <img class="corner-decoration corner-right-top" src="./img/corner.png"></img>
+        <img class="corner-decoration corner-right-bottom" src="./img/corner.png"></img>
+        <img class="corner-decoration corner-left-bottom" src="./img/corner.png"></img>
+        <div id="text" class="text">
+        </div>
+        <div class="close" onclick="hide()">
+          X
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script type="text/javascript" src="./js/config.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/classes.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/collisionsData.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/crystalsData.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/message.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/engine.js" charset="utf-8"></script>
+<script type="text/javascript" src="https://unpkg.com/moralis/dist/moralis.js"></script>
+<script type="text/javascript" src="./js/web3/web3.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/web3/web3Engine.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/web3/contractToken.js" charset="utf-8"></script>
+
 </html>
