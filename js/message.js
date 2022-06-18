@@ -27,10 +27,10 @@ function showMessage(msg) {
   setTimeout(() => { write(); }, 1000);
 }
 
-const welcome = `{Welcome to DC3Land! {Use arrows to move, collect the 9 crystals to claim a land, if it's a lucky land you'll get 100 extra Tokens!
-                 {For each crystal you'll get a Token, see the transaction on mumbai.polygonscan!
-                 {See your Land NFT data by clicking on the image!
-                 {Enjoy! :)`
+const welcome = `Welcome to DC3Land! Use arrows to move, collect the 9 crystals to claim a land, if it's a lucky land you'll get 100 extra Tokens!
+                 For each crystal you'll get a Token, see the transaction on mumbai.polygonscan!
+                 See your Land NFT data by clicking on the image!
+                 Enjoy! :)`
 showMessage(welcome);
 
 

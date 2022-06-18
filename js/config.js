@@ -8,7 +8,7 @@ const MAP_ZOOM_MULT = MAP_ZOOM / 100;
 const TILE_COLLISION = 79687;
 const TILE_COLLECTOBJ = 79688;
 const MAP_OFFSET = {
-	x: -290,
+	x: -2200,
 	y: -300
 }
 const PLAYER_IMG = {
@@ -31,7 +31,7 @@ const BRIGHT_POINT = {
 	x: 900,
 	y: 630,
 	step: 150,
-	dist:600
+	dist:450
 }
 const DARK_POINT = {
 	x: 3360,

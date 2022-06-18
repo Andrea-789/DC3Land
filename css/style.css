@@ -68,7 +68,7 @@ a {
   white-space: nowrap;
   overflow: hidden;
   background-color: transparent;
-  width: 60%;
+  width: 50%;
   padding-top: 10px;
   height: 100px;
   float: left;
@@ -80,10 +80,10 @@ a {
   white-space: nowrap;
   overflow: hidden;
   background-color: transparent;
-  width: 15%;
+  width: 25%;
   height: 40px;
   margin-left: 15px;
-  padding-top: 10px;
+  padding-top: 5px;
   float: left;
   border: 3px solid #E7AA00;
   border-radius: 20px;
@@ -131,7 +131,7 @@ a {
   border: 3px solid #E7AA00;
   border-radius: 20px;
   margin-right: 10px;
-  padding-top: 6px;
+  padding-top: 4px;
   color: yellow;
 }
 
