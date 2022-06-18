@@ -27,3 +27,15 @@ const PLAYER_IMG = {
 }
 
 const LAND_SIDE = 100;
+const BRIGHT_POINT = {
+	x: 900,
+	y: 630,
+	step: 150,
+	dist:600
+}
+const DARK_POINT = {
+	x: 3360,
+	y: 600,
+	step: 150,
+	dist: 800
+}

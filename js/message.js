@@ -2,19 +2,20 @@ let content = document.getElementById('last');
 let timer;
 
 // Toggle show/hide classes on test content
-function hide() {
+async function hide() {
   content.className = "hidden";
   disegnaLand = false;
   clearTimeout(timer);
 
-  login();
+  await login();  
+
+  checkWallet();
 }
 
 function showMessage(msg) {
   content.className = "visible";
   let elem = document.getElementById('text');
   elem.textContent = "";
-  // var text = '{Welcome!<br>{Use your keyboard /\n/\rarrow /r/nnto move! {Welcome!<br>{Use your keyboard \\narrow /nto move! {Welcome!<br>{Use your keyboard \\narrow /'
   let curr = 0;
   function write() {
     let elem = document.getElementById('text');
@@ -26,12 +27,10 @@ function showMessage(msg) {
   setTimeout(() => { write(); }, 1000);
 }
 
-const welcome = `{Welcome! 
-                 {Use your keyboard arrow to move!
-                  {Welcome! 
-                    {Use your keyboard arrow to move!
-                      {Welcome! 
-                        {Use your keyboard arrow to move!`
+const welcome = `{Welcome to DC3Land! {Use arrows to move, collect the 9 crystals to claim a land, if it's a lucky land you'll get 100 extra Tokens!
+                 {For each crystal you'll get a Token, see the transaction on mumbai.polygonscan!
+                 {See your Land NFT data by clicking on the image!
+                 {Enjoy! :)`
 showMessage(welcome);
 
 

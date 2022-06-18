@@ -17,10 +17,10 @@ const ctxLand = canvasLand.getContext("2d");
 
 
 const bgImage = new Image();
-bgImage.src = "./img/Map75_LAST.jpeg";
+bgImage.src = "./img/map.jpeg";
 
 const playerImage = new Image();
-playerImage.src = "./img/link125.png";
+playerImage.src = "./img/player.png";
 
 let crystalsImage = [];
 for (let i = 1; i <= 9; i++) {
@@ -30,13 +30,13 @@ for (let i = 1; i <= 9; i++) {
 
 //flying objects
 let arrayImageFO = [];
-for (let i = 0; i <= 1; i++) {
+for (let i = 0; i <= 12; i++) {
 	arrayImageFO[i] = new Image();
 	arrayImageFO[i].src = `./img/fo/fo_${i}.png`;
 }
 
 let arrayFO = [];
-for (let i = 0; i <= 1; i++) {
+for (let i = 0; i < arrayImageFO.length; i++) {
 	arrayFO[i] = new FlyingObj(
 		{
 			position: {
@@ -44,7 +44,7 @@ for (let i = 0; i <= 1; i++) {
 				y: Math.floor(Math.random() * bgImage.height)
 			},
 			image: arrayImageFO[i],
-			step: (Math.floor(Math.random() * 3) + 1) // / 10
+			step: (Math.floor(Math.random() * 3) + 1)
 		});
 }
 
@@ -52,6 +52,9 @@ let arrayRandomFO = [];
 
 let collectedcrystals = 0;
 let claimed = false;
+
+let changedB = false;
+let changedD = false;
 
 //direction object
 direction = {
@@ -78,10 +81,28 @@ land = {
 	width: LAND_SIDE,
 	height: LAND_SIDE,
 	imageHash: "",
-	imageIpfs: ""
+	imageIpfs: "",
+	ipfs: ""
 };
 
 drawLandRect = false;
+
+canvasLand.addEventListener("click", () => {
+	if (land.ipfs != "")
+		window.open(land.ipfs, "_blank"); 
+})
+
+const conn = document.getElementById("conn");
+conn.addEventListener("click", async () => {
+	const connection = document.getElementById("connection");
+	if (connection.innerHTML === "Connect") {
+		await login();
+
+		checkWallet();
+	}
+	else if (connection.innerHTML === "Install Metamask")
+		window.open("https://metamask.io/", "_blank"); 
+});
 
 //get the direction based on the button pressed
 window.addEventListener("keydown", (e) => handleDirection(e.key, true));
@@ -220,14 +241,15 @@ function updateCollected() {
 	document.getElementById("crystals").innerHTML = collectedcrystals;
 }
 
-async function sendCrystals() {
+
+async function sendCrystals(num) {
 
 	if (userAddress === "")
 		return;
 
 	const tx = document.getElementById("transaction");
 	tx.innerHTML = "sending transaction...";
-	let res = await transferToken();
+	let res = await transferToken(num);
 	console.log("tokens:", res);
 	if (res.result == "OK") {
 		tx.innerHTML = `<a href="https://mumbai.polygonscan.com/tx/${res.msg}" target="_blank">${res.msg}</a>`;
@@ -267,10 +289,16 @@ async function claim() {
 
 	showLand();
 
-	showMessage("press c to claim your land, q to quit");
+	showMessage("Press c to claim your land, q to quit");
 }
 
 async function assignLand() {
+
+	if (userAddress === ""){
+		drawLandRect = false;
+		hide();
+		return;
+	}
 
 	addNFTSymbol();
 
@@ -278,8 +306,15 @@ async function assignLand() {
 	const tx = document.getElementById("transaction");
 	tx.innerHTML = "sending transaction...";
 	res = await assignPlot();
-	if (res.result === "OK")
+	if (res.result === "OK") {
 		tx.innerHTML = `<a href="https://mumbai.polygonscan.com/tx/${res.msg}" target="_blank">${res.msg}</a>`;
+
+		let num = Math.round(Math.random() * 100);
+		if (num < 25){
+			showMessage("Hooray, you've just won 100 crystals!!");
+			sendCrystals(100);
+		}		
+	}
 	else
 		tx.innerHTML = res.msg;
 
@@ -291,11 +326,11 @@ async function assignLand() {
 //draw a rectangle on the claimable land if player has collected 9 crystals
 function showLand() {
 
-	// if (ncrystals < 9)
-	// 	return;
+	if (ncrystals < 9)
+		return;
 
-	console.log(Math.abs(background.position.x) + player.position.x,
-		Math.abs(background.position.y) + player.position.y);
+	// console.log(Math.abs(background.position.x) + player.position.x,
+	// 	Math.abs(background.position.y) + player.position.y);
 
 	let x = Math.trunc((Math.abs(background.position.x) + player.position.x) / 100);
 	let y = Math.trunc((Math.abs(background.position.y) + player.position.y) / 100);
@@ -322,16 +357,19 @@ function showLand() {
 
 function loadUserData(data) {
 
-	// const metadata = data.get("metadata");
+	const metadata = data.data;
+	const ipfs = data.ipfs;
 
-	land.tile.x = data.PlotX;
-	land.tile.y = data.PlotY;
-	land.absPosition.x = data.LocationX;
-	land.absPosition.Y = data.LocationY;
-	land.position.x = data.LocationX + background.position.x;
-	land.position.y = data.LocationY + background.position.y;
-	land.imageHash = data.imageHash;
-	land.imageIpfs = data.imageIpfs;
+	land.tile.x = metadata.PlotX;
+	land.tile.y = metadata.PlotY;
+	land.absPosition.x = metadata.LocationX;
+	land.absPosition.Y = metadata.LocationY;
+	land.position.x = metadata.LocationX + background.position.x;
+	land.position.y = metadata.LocationY + background.position.y;
+	land.imageHash = metadata.imageHash;
+	land.imageIpfs = metadata.imageIpfs;
+
+	land.ipfs = ipfs;
 
 	let imgLand = new Image();
 	imgLand.src = land.imageIpfs;
@@ -345,7 +383,7 @@ function loadUserData(data) {
 }
 
 function setFlyingObj() {
-	let nFOs = Math.floor(Math.random() * arrayFO.length);
+	let nFOs = Math.floor(Math.random() * 2 /*arrayFO.length*/);
 	if (nFOs < 0)
 		nFOs = 0;
 
@@ -353,13 +391,61 @@ function setFlyingObj() {
 		let flyingObj = arrayFO[Math.floor(Math.random() * (arrayFO.length - 1))];
 
 		flyingObj.position.x = background.position.x - arrayImageFO[i].width;
-		flyingObj.position.y = Math.floor(Math.random() * bgImage.height / 2);
-		flyingObj.step = (Math.floor(Math.random() * 3) + 1); // / 10;
+		flyingObj.position.y = Math.floor(Math.random() * bgImage.height);
+		flyingObj.step = (Math.floor(Math.random() * 3) + 1); 
 
 		arrayRandomFO.push(flyingObj);
 	}
 
-	console.log(arrayRandomFO);
+}
+
+function checkBright() {
+	
+	if (changedD)
+		return;
+
+	let x = Math.abs(background.position.x) + player.position.x;
+	let y = Math.abs(background.position.y) + player.position.y;
+
+	let dist = Math.hypot(BRIGHT_POINT.x - x, BRIGHT_POINT.y - y);
+	if (dist < BRIGHT_POINT.dist)
+	{
+		changedB = true
+		if (dist < (BRIGHT_POINT.dist - BRIGHT_POINT.step))
+			document.getElementById("cont").style.filter = "brightness(125%)";
+		else
+			document.getElementById("cont").style.filter = "brightness(110%)";
+	}
+	else
+	{
+		changedB = false;
+		document.getElementById("cont").style.filter = "brightness(100%)";
+	}
+}
+
+function checkDark() {
+
+	if (changedB)
+		return;
+
+	let x = Math.abs(background.position.x) + player.position.x;
+	let y = Math.abs(background.position.y) + player.position.y;
+
+	let dist = Math.hypot(DARK_POINT.x - x, DARK_POINT.y - y);
+	if (dist < DARK_POINT.dist)
+	{
+		changedD = true;
+
+		if (dist < (DARK_POINT.dist - DARK_POINT.step))
+			document.getElementById("cont").style.filter = "brightness(70%)";
+		else
+			document.getElementById("cont").style.filter = "brightness(90%)";
+	}
+	else
+	{
+		changedD = false;
+		document.getElementById("cont").style.filter = "brightness(100%)";
+	}
 }
 
 //array of everything has to be moved when character moves
@@ -390,7 +476,7 @@ async function animate() {
 			collectedcrystals++;
 			updateCollected();
 
-			sendCrystals();
+			sendCrystals(1);
 		}
 	});
 
@@ -399,13 +485,11 @@ async function animate() {
 
 	arrayRandomFO.forEach((item, index, arr) => {
 		item.position.x += item.step;
-		// console.log("item.position:", item.position);
 		if (item.position.x > bgImage.width) {
 			arr.splice(index, 1);
 		}
 
 		item.draw();
-		//ctx.drawImage(item.getImg(), item.getX(), item.getY())
 	});
 
 	if (arrayRandomFO.length === 0)
@@ -417,13 +501,14 @@ async function animate() {
 
 		if (!claimed)
 			ctxLand.drawImage(bgImage, land.absPosition.x, land.absPosition.y, LAND_SIDE, LAND_SIDE, 0, 0, LAND_SIDE, LAND_SIDE);
-		// ctxLand.fillStyle = "black";
-		// ctxLand.fillRect(0,0,100,100);
 	}
+
+	checkBright();
+	checkDark();
 
 	//move player and background based on direction
 	let canGo = true;
-	if (direction.up /*&& lastKey === "ArrowUp"*/) {
+	if (direction.up) {
 		for (let i = 0; i < boundaries.length; i++) {
 			//check collision
 			const boundary = boundaries[i];
@@ -439,9 +524,6 @@ async function animate() {
 			})) {
 				canGo = false;
 				break;
-			} else {
-				// if (background.position.y + 6 >= 0)				
-				// 	canGo = false;
 			}
 		}
 
@@ -449,7 +531,6 @@ async function animate() {
 			movables.forEach(movable => {
 				movable.position.y += 3;
 			});
-			// player.position.y -= 2;
 			//move flying objects
 			arrayRandomFO.forEach(fo => {
 				fo.position.y += 3;
@@ -458,7 +539,7 @@ async function animate() {
 
 	}
 
-	if (direction.down /*&& lastKey === "ArrowDown"*/) {
+	if (direction.down) {
 		for (let i = 0; i < boundaries.length; i++) {
 			//check collision
 			const boundary = boundaries[i];
@@ -474,27 +555,21 @@ async function animate() {
 			})) {
 				canGo = false;
 				break;
-			} else {
-				// if (background.position.y - 6 <= 0)				
-				// 	canGo = false;
-			}
-
+			} 
 		}
 
 		if (canGo) {
 			movables.forEach((movable) => {
 				movable.position.y -= 3;
 			});
-			// player.position.y += 2;
 			arrayRandomFO.forEach(fo => {
 				fo.position.y -= 3;
 			});
 		}
 
-
 	}
 
-	if (direction.left /*&& lastKey === "ArrowLeft"*/) {
+	if (direction.left) {
 		for (let i = 0; i < boundaries.length; i++) {
 			//check collision
 			const boundary = boundaries[i];
@@ -510,9 +585,6 @@ async function animate() {
 			})) {
 				canGo = false;
 				break;
-			} else {
-				// if (background.position.x + 6 >= 0)				
-				// 	canGo = false;
 			}
 
 		}
@@ -521,17 +593,14 @@ async function animate() {
 			movables.forEach((movable) => {
 				movable.position.x += 3;
 			});
-			// player.position.x -= 2;
-
 			arrayRandomFO.forEach(fo => {
 				fo.position.x += 3;
 			});
 		}
 
-
 	}
 
-	if (direction.right /*&& lastKey === "ArrowRight"*/) {
+	if (direction.right) {
 		for (let i = 0; i < boundaries.length; i++) {
 			//check collision
 			const boundary = boundaries[i];
@@ -547,9 +616,6 @@ async function animate() {
 			})) {
 				canGo = false;
 				break;
-			} else {
-				// if (background.position.x - 6 <= 0)				
-				// 	canGo = false;
 			}
 
 		}
@@ -559,12 +625,10 @@ async function animate() {
 				movable.position.x -= 3;
 			});
 
-			// player.position.x += 2;
 			arrayRandomFO.forEach(fo => {
 				fo.position.x -= 3;
 			});
 		}
-
 
 	}
 

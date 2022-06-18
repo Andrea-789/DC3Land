@@ -11,15 +11,14 @@ async function login() {
 	if (userAddress != "")
 		return;
 
-	if (typeof window === "undefined" && typeof window.ethereum === "undefined") {
-		document.getElementById("transaction").innerHTML = "Install Metamask";
+	if (typeof ethereum === "undefined" && typeof window.ethereum === "undefined")
 		return;
-	}
 
 	//authenticate
 	try {
 		user = await Moralis.authenticate({
-			signingMessage: "Welcome to crypto Zelda",
+			signingMessage: "Welcome to DC3Land",
+			appLogo: "https://www.dc3.digital/dc3land/img/logo/dc3ico.png",
 		});
 	} catch (err) {
 		console.log(err);
@@ -50,10 +49,10 @@ async function login() {
 							rpcUrls: ["https://rpc.ankr.com/polygon_mumbai"],
 							nativeCurrency: {
 								name: "Matic",
-								symbol: "Matic",
+								symbol: "MATIC",
 								decimals: 18,
 							},
-							blockExplorerUrls: ["https://explorer-mumbai.maticvigil.com"],
+							blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
 						},
 					],
 				});
@@ -77,6 +76,18 @@ async function login() {
 
 }
 
+function checkWallet() {	
+	if (userAddress === "") {
+		document.getElementById("conn").style.visibility = "visible"; 
+		if (typeof ethereum === "undefined" && typeof window.ethereum === "undefined"){
+			document.getElementById("connection").innerHTML = "Install Metamask";
+			document.getElementById("conn").style.width = "18%";
+		}		
+	}
+	else
+		document.getElementById("conn").style.visibility = "hidden"; 
+}
+
 //add the token symbol to metamask
 async function addTokenSymbol() {
 	try {
@@ -88,8 +99,8 @@ async function addTokenSymbol() {
 				options: {
 					address: CONTRACT_TOKEN_ADDRESS, // The address that the token is at.
 					symbol: "DC3", // A ticker symbol or shorthand, up to 5 chars.
-					decimals: 18 // The number of decimals in the token
-					// image: tokenImage, // A string url of the token logo
+					decimals: 18, // The number of decimals in the token
+					image: "https://www.dc3.digital/dc3land/img/logo/dc3ico.png" // A string url of the token logo
 				}
 			},
 		});
@@ -109,8 +120,8 @@ async function addNFTSymbol() {
 				options: {
 					address: CONTRACT_NFT_ADDRESS, // The address that the token is at.
 					symbol: "DC3NFT", // A ticker symbol or shorthand, up to 5 chars.
-					decimals: 0 // The number of decimals in the token
-					// image: tokenImage, // A string url of the token logo
+					decimals: 0, // The number of decimals in the token
+					image: "https://www.dc3.digital/dc3land/img/logo/dc3ico.png"
 				},
 			},
 		});
@@ -121,14 +132,14 @@ async function addNFTSymbol() {
 }
 
 //call Moralis Cloud Function to send tokens
-async function transferToken() {
+async function transferToken(num) {
 
 	if (userAddress === "")
 		return;
 
 	const params = {
 		address: userAddress,
-		amount: Moralis.Units.Token("9", "18")
+		amount: Moralis.Units.Token(num, "18")
 	}
 
 	const res = await Moralis.Cloud.run("transferToken", params);
@@ -143,7 +154,7 @@ async function transferMatic() {
 
 	const params = {
 		address: userAddress,
-		amount: Moralis.Units.ETH("0.001", "18")
+		amount: Moralis.Units.ETH("0.002", "18")
 	}
 
 	const res = await Moralis.Cloud.run("transferMatic", params);
@@ -199,6 +210,7 @@ async function assignPlot() {
 		const metadataFile = new Moralis.File("metadata.json", { base64: btoa(JSON.stringify(metadata)) });
 		await metadataFile.saveIPFS();
 		const metadataURI = metadataFile.ipfs();
+		land.ipfs = metadataURI;
 		const res = await mint(metadataURI, plotID);
 		console.log("after mint res", res);
 		// Save reference to Moralis
@@ -207,6 +219,7 @@ async function assignPlot() {
 				const plot = new Moralis.Object("Plots");
 				plot.set("address", userAddress);
 				plot.set("metadata", metadata);
+				plot.set("ipfs", metadataURI);
 				await plot.save();
 			} catch (err) {
 				console.log("err salvataggio", err);
@@ -261,7 +274,10 @@ async function checkUserExists() {
 	const data = await query.find();	//	.then(function ([plot]) {
 	
 	if (data.length > 0)
-		return data[0].get("metadata");
+		return {
+			data: data[0].get("metadata"),
+			ipfs: data[0].get("ipfs")
+		}
 	else
 		return null;
 }

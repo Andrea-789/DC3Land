@@ -1,3 +1,11 @@
+a {
+    text-decoration: none !important;
+    font-size: 30px;
+    height:200px;
+    font-family: ReturnofGanon;
+    color: white;
+    text-shadow: rgb(0, 0, 115) 3px 0px 0px, rgb(0, 0, 115) 2.83487px 0.981584px 0px, rgb(0, 0, 115) 2.35766px 1.85511px 0px, rgb(0, 0, 115) 1.62091px 2.52441px 0px, rgb(0, 0, 115) 0.705713px 2.91581px 0px, rgb(0, 0, 115) -0.287171px 2.98622px 0px, rgb(0, 0, 115) -1.24844px 2.72789px 0px, rgb(0, 0, 115) -2.07227px 2.16926px 0px, rgb(0, 0, 115) -2.66798px 1.37182px 0px, rgb(0, 0, 115) -2.96998px 0.42336px 0px, rgb(0, 0, 115) -2.94502px -0.571704px 0px, rgb(0, 0, 115) -2.59586px -1.50383px 0px, rgb(0, 0, 115) -1.96093px -2.27041px 0px, rgb(0, 0, 115) -1.11013px -2.78704px 0px, rgb(0, 0, 115) -0.137119px -2.99686px 0px, rgb(0, 0, 115) 0.850987px -2.87677px 0px, rgb(0, 0, 115) 1.74541px -2.43999px 0px, rgb(0, 0, 115) 2.44769px -1.73459px 0px, rgb(0, 0, 115) 2.88051px -0.838247px 0px;
+}
 .body {
   height: 1985px;
   /* width: 1134px; */
@@ -8,11 +16,16 @@
 }
 .cont{
   display: inline-block;
-  position: relative;
-
+  position: relative;  
 }
 
-.canvas{
+#cont {
+  filter: brightness(100%);
+  transition: all 1s ease;
+}
+
+.canvas
+{
   box-shadow:
     0px 0px 3px 0px rgb(231 170 0 / 100%)
 
@@ -41,7 +54,7 @@
 }
 
 #textBottom {
-  height: 60px;
+  height: 70px;
   width: 100%;
   position: absolute;
   display: inline;
@@ -55,20 +68,39 @@
   white-space: nowrap;
   overflow: hidden;
   background-color: transparent;
-  width: 32%;
+  width: 60%;
+  padding-top: 10px;
   height: 100px;
   float: left;
 
+}
+
+.connection {
+  height: 1em;
+  white-space: nowrap;
+  overflow: hidden;
+  background-color: transparent;
+  width: 15%;
+  height: 40px;
+  margin-left: 15px;
+  padding-top: 10px;
+  float: left;
+  border: 3px solid #E7AA00;
+  border-radius: 20px;
+}
+
+#conn {
+  visibility: hidden;
 }
 
 .transaction {
   height: 1em;
   white-space: nowrap;
   overflow: hidden;
-  text-decoration: none;
   background-color: transparent;
   width: 80%;
   height: 100px;
+  padding-top: 10px;
   float: left;
 }
 
@@ -93,7 +125,7 @@
   /* white-space: nowrap; */
   overflow: hidden;
   background-color: transparent;
-  width: 12%;
+  width: 15%;
   height: 40px;
   float:right;
   border: 3px solid #E7AA00;

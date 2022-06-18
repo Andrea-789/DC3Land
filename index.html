@@ -5,17 +5,22 @@
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   <meta charset="utf-8">
   <link rel="stylesheet" href="./css/style.css">
+  <link rel="icon" type="image/ico" href="https://www.dc3.digital/dc3land/img/logo/dc3ico.png">
   <title></title>
 </head>
 
 <body class="body">
 
-  <div class="cont">
+  <div class="cont" id="cont">
     <div class="text" id="textTop">
+      <div class="connection" id="conn">
+        <span id="connection">Connect</span>
+      </div>
+
       <div class="cristalls">
         {collected crystals <span id="crystals">0</span> - 9
       </div>
-      
+
       <div class="coordinates">
         <canvas id="land" class="land"></canvas>
       </div>
@@ -25,7 +30,7 @@
       <div class="transaction">
         <span id="transaction"></span>
       </div>
-      
+
       <div class="claim" onclick="claim()">
         Claim
       </div>
