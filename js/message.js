@@ -14,8 +14,7 @@ async function hide() {
 
 function showMessage(msg) {
   content.className = "visible";
-  let elem = document.getElementById('text');
-  elem.textContent = "";
+  document.getElementById('text').textContent = "";
   let curr = 0;
   function write() {
     let elem = document.getElementById('text');
@@ -31,7 +30,7 @@ const welcome = `Welcome to DC3Land! Use arrows to move, collect the 9 crystals 
                  For each crystal you'll get a Token, see the transaction on mumbai.polygonscan!
                  See your Land NFT data by clicking on the image!
                  Enjoy! :)`
-showMessage(welcome);
+
 
 
 

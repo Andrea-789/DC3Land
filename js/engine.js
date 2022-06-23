@@ -86,6 +86,7 @@ land = {
 };
 
 drawLandRect = false;
+start = false;
 
 canvasLand.addEventListener("click", () => {
 	if (land.ipfs != "")
@@ -153,13 +154,13 @@ async function handleDirection(key, mode) {
 
 }
 
-const background = new Sprite({
-	position: {
-		x: MAP_OFFSET.x,
-		y: MAP_OFFSET.y
-	},
-	image: bgImage
-});
+// const background = new Sprite({
+// 	position: {
+// 		x: MAP_OFFSET.x,
+// 		y: MAP_OFFSET.y
+// 	},
+// 	image: bgImage
+// });
 
 const player = new Sprite({
 	position: {
@@ -236,6 +237,15 @@ crystalMap.forEach((row, i) => {
 		}
 	})
 });
+
+const background = new Sprite({
+	position: {
+		x: MAP_OFFSET.x,
+		y: MAP_OFFSET.y
+	},
+	image: bgImage
+});
+
 
 function updateCollected() {
 	document.getElementById("crystals").innerHTML = collectedcrystals;
@@ -453,6 +463,19 @@ const movables = [background, ...boundaries, ...crystals, land];
 
 //refres canvas image seamlessly
 async function animate() {
+
+	if (!background.image.loaded) {
+		window.requestAnimationFrame(animate);
+		return;
+	}
+	else
+	{
+		if (!start) {
+			start = true;
+			document.getElementById("loader").style.visibility = "hidden";
+			showMessage(welcome);
+		}
+	}
 
 	//draw the background
 	background.draw();

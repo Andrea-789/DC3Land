@@ -37,5 +37,5 @@ const DARK_POINT = {
 	x: 3360,
 	y: 600,
 	step: 150,
-	dist: 800
+	dist: 1000
 }

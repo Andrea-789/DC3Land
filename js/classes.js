@@ -4,6 +4,7 @@ class Sprite {
 		this.position = position;
 		this.image = image;
 		this.frames = { ...frames, elapsed: 0 };
+		this.image.loaded = false;
 		
 		this.image.onload = () => {
 			this.width = this.image.width / this.frames.maxH;
@@ -71,7 +72,7 @@ class FlyingObj {
 		this.position = position;
 		this.image = image;
 		this.step = step;
-
+		
 		this.image.onload = () => {
 			this.image.loaded = true;
 		}		
