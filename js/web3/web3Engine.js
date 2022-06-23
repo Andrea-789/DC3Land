@@ -222,7 +222,7 @@ async function assignPlot() {
 				plot.set("ipfs", metadataURI);
 				await plot.save();
 			} catch (err) {
-				console.log("err salvataggio", err);
+				console.log("IPFS error", err);
 			}
 		}
 		console.log(res);
