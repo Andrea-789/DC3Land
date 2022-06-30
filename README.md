@@ -1,5 +1,5 @@
 # DC3Land Crypto Game
-Crypto Game in old fashioned Zelda style to interact with Smart Contracts and save data in IPFS
+Crypto Game to interact with Smart Contracts and save data in IPFS
 
 ## Requirements
 - Vanilla JavaScript, HTML, CSS
@@ -18,6 +18,7 @@ Crypto Game in old fashioned Zelda style to interact with Smart Contracts and sa
 	  https://www.youtube.com/watch?v=tJez2sd1sok
 	- Pokémon JavaScript Game Tutorial with HTML Canvas by Chris Courses
 	  https://www.youtube.com/watch?v=yP5DKzriqXA
+	  
 Thanks guys
 
 You can see a short video here https://www.youtube.com/watch?v=PxhriJlM2nE
