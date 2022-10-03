@@ -23,6 +23,6 @@ Thanks guys
 
 You can see a short video here https://www.youtube.com/watch?v=PxhriJlM2nE
 
-Live demo here https://www.dc3.digital/dc3land/
+Live demo here https://www.dc3.space/dc3land/
 
 ![DC3Land](DC3Land.png?raw=true)
