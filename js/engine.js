@@ -85,8 +85,8 @@ land = {
 	ipfs: ""
 };
 
-drawLandRect = false;
-start = false;
+let drawLandRect = false;
+let start = false;
 
 canvasLand.addEventListener("click", () => {
 	if (land.ipfs != "")
@@ -105,9 +105,21 @@ conn.addEventListener("click", async () => {
 		window.open("https://metamask.io/", "_blank"); 
 });
 
-//get the direction based on the button pressed
+//get the direction based on the key pressed
 window.addEventListener("keydown", (e) => handleDirection(e.key, true));
 window.addEventListener("keyup", (e) => handleDirection(e.key, false));
+
+//get the direction based on the button pressed
+document.querySelectorAll('.moveButton').forEach(item => {
+	item.addEventListener('touchstart', event => 
+		handleDirection(item.id, true))
+});
+
+document.querySelectorAll('.moveButton').forEach(item => {
+	item.addEventListener('touchend', event => 
+		handleDirection(item.id, false))
+});
+
 
 let lastKey = "";
 async function handleDirection(key, mode) {
@@ -246,7 +258,6 @@ const background = new Sprite({
 	image: bgImage
 });
 
-
 function updateCollected() {
 	document.getElementById("crystals").innerHTML = collectedcrystals;
 }
@@ -339,9 +350,6 @@ function showLand() {
 	if (ncrystals < 9)
 		return;
 
-	// console.log(Math.abs(background.position.x) + player.position.x,
-	// 	Math.abs(background.position.y) + player.position.y);
-
 	let x = Math.trunc((Math.abs(background.position.x) + player.position.x) / 100);
 	let y = Math.trunc((Math.abs(background.position.y) + player.position.y) / 100);
 
@@ -367,7 +375,8 @@ function showLand() {
 
 function loadUserData(data) {
 
-	const metadata = data.data;
+	console.log("data", data);
+	const metadata = JSON.parse(data.metadata);
 	const ipfs = data.ipfs;
 
 	land.tile.x = metadata.PlotX;
@@ -654,7 +663,7 @@ async function animate() {
 		}
 
 	}
-
+	
 	window.requestAnimationFrame(animate);
 }
 
