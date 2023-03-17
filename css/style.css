@@ -9,6 +9,7 @@ a {
 .body {
   height: 1985px;
   /* width: 1134px; */
+  background-color: #226d32;
   width: 100%;
   text-align: center;
   padding-top: 10px;
@@ -222,6 +223,58 @@ a {
   text-shadow: rgb(0, 0, 115) 3px 0px 0px, rgb(0, 0, 115) 2.83487px 0.981584px 0px, rgb(0, 0, 115) 2.35766px 1.85511px 0px, rgb(0, 0, 115) 1.62091px 2.52441px 0px, rgb(0, 0, 115) 0.705713px 2.91581px 0px, rgb(0, 0, 115) -0.287171px 2.98622px 0px, rgb(0, 0, 115) -1.24844px 2.72789px 0px, rgb(0, 0, 115) -2.07227px 2.16926px 0px, rgb(0, 0, 115) -2.66798px 1.37182px 0px, rgb(0, 0, 115) -2.96998px 0.42336px 0px, rgb(0, 0, 115) -2.94502px -0.571704px 0px, rgb(0, 0, 115) -2.59586px -1.50383px 0px, rgb(0, 0, 115) -1.96093px -2.27041px 0px, rgb(0, 0, 115) -1.11013px -2.78704px 0px, rgb(0, 0, 115) -0.137119px -2.99686px 0px, rgb(0, 0, 115) 0.850987px -2.87677px 0px, rgb(0, 0, 115) 1.74541px -2.43999px 0px, rgb(0, 0, 115) 2.44769px -1.73459px 0px, rgb(0, 0, 115) 2.88051px -0.838247px 0px;
 }
 
+
+.upbutton{
+  position: absolute;
+  width: 210px;
+  height: 100px;
+  border: 3px solid #E7AA00;
+  border-radius: 20px;
+  top: 1080px;
+  left:405px;
+  background-color: #a27700;
+  padding-top: 30px;
+
+}
+.leftbutton{
+  position: absolute;
+  width: 210px;
+  height: 100px;
+  border: 3px solid #E7AA00;
+  border-radius: 20px;
+  top: 1240px;
+  left:280px;
+  background-color: #a27700;
+  padding-top: 30px;
+}
+.rightbutton{
+  position: absolute;
+  width: 210px;
+  height: 100px;
+  border: 3px solid #E7AA00;
+  border-radius: 20px;
+  top: 1240px;
+  left:540px;
+  background-color: #a27700;
+  padding-top: 30px;
+}
+.downbutton{
+  position: absolute;
+  width: 210px;
+  height: 100px;
+  border: 3px solid #E7AA00;
+  border-radius: 20px;
+  top: 1400px;
+  left:405px;
+  background-color: #a27700;
+  padding-top: 30px;
+}
+
+.upbutton ion-icon { font-size: 3.8rem; }
+.leftbutton ion-icon { font-size: 3.8rem; }
+.rightbutton ion-icon { font-size: 3.8rem; }
+.downbutton ion-icon { font-size: 3.8rem; }
+
 .loader{
   width: 100%;
   height: 100%;
@@ -256,3 +309,5 @@ a {
     transform: rotate(360deg);
   }
 }
+
+
