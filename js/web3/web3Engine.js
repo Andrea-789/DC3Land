@@ -146,7 +146,7 @@ async function addTokenSymbol() {
 					address: CONTRACT_TOKEN_ADDRESS, // The address that the token is at.
 					symbol: "DC3", // A ticker symbol or shorthand, up to 5 chars.
 					decimals: 18, // The number of decimals in the token
-					image: "https://www.dc3.space/dc3land/img/logo/dc3ico.png" // A string url of the token logo
+					image: "https://www.dc3.space/dc3land/img/dc3ico.png" // A string url of the token logo
 				}
 			},
 		});
@@ -167,7 +167,7 @@ async function addNFTSymbol() {
 					address: CONTRACT_NFT_ADDRESS, // The address that the token is at.
 					symbol: "DC3NFT", // A ticker symbol or shorthand, up to 5 chars.
 					decimals: 0, // The number of decimals in the token
-					image: "https://www.dc3.space/dc3land/img/logo/dc3ico.png"
+					image: "https://www.dc3.space/dc3land/img/dc3ico.png"
 				},
 			},
 		});
@@ -272,7 +272,7 @@ async function assignPlot() {
 		await savePlotImageToIPFS(plotID);
 
 		const metadata = {
-			"PlotID": plotID,
+			"PlotID": plotID.toString(),
 			"PlotX": land.tile.x,
 			"PlotY": land.tile.y,
 			"LocationX": land.absPosition.x,
