@@ -1,7 +1,7 @@
 {
-  "name": "coop_giri",
+  "name": "DC3Land",
   "version": "1.0.0",
-  "description": "Gestione servizio giri Coop Insieme",
+  "description": "DC3Land crypto NFT game",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
