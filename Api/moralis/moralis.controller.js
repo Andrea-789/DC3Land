@@ -279,7 +279,7 @@ exports.savePlotToIPFS = async (req, res) => {
   const abi = [
     {
       path: req.body.path,
-      content: req.body.content
+      data: req.body.content
     },
   ];
 
