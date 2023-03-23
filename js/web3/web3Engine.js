@@ -226,7 +226,7 @@ async function savePlotImageToIPFS(plotID) {
 
 	const params = {
 		path: plotID + ".png",
-		content: image
+		data: image
 	}
 
 	const res = await handleApiPost('moralis/save-plot', params);
@@ -243,7 +243,7 @@ async function savePlotDataToIPFS(metadata) {
 
 	const params = {
 		path: "metadata.json",
-		content: btoa(JSON.stringify(metadata))
+		data: btoa(JSON.stringify(metadata))
 	}
 
 	const res = await handleApiPost('moralis/save-plot', params);
