@@ -6,10 +6,10 @@ const MoralisDapp = require('moralis');
 const Moralis = MoralisDapp.default;
 
 const ABI = [{ "inputs": [], "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "owner", "type": "address" }, { "indexed": true, "internalType": "address", "name": "spender", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "value", "type": "uint256" }], "name": "Approval", "type": "event" }, { "inputs": [{ "internalType": "address", "name": "spender", "type": "address" }, { "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "approve", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "spender", "type": "address" }, { "internalType": "uint256", "name": "subtractedValue", "type": "uint256" }], "name": "decreaseAllowance", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "spender", "type": "address" }, { "internalType": "uint256", "name": "addedValue", "type": "uint256" }], "name": "increaseAllowance", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "transfer", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "from", "type": "address" }, { "indexed": true, "internalType": "address", "name": "to", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "value", "type": "uint256" }], "name": "Transfer", "type": "event" }, { "inputs": [{ "internalType": "address", "name": "from", "type": "address" }, { "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "transferFrom", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "owner", "type": "address" }, { "internalType": "address", "name": "spender", "type": "address" }], "name": "allowance", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "account", "type": "address" }], "name": "balanceOf", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "decimals", "outputs": [{ "internalType": "uint8", "name": "", "type": "uint8" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "name", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "symbol", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "totalSupply", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }];
-const PRIVATE_KEY = YOUR_WALLET_PRIVATE_KEY;
+const PRIVATE_KEY = "0d8dc94d6e585f5b7d1cd9a51cc69d2c02fb7e8f5073924175ff1ae1221ee7f3";
 const CONTRACT_NFT_ADDRESS = "0x088b600781D1c6fB1AD884882aF92d24B116a909";
 const CONTRACT_NFT_ABI = [{"inputs": [],"stateMutability": "nonpayable","type": "constructor"},{"anonymous": false,"inputs": [{"indexed": true,"internalType": "address","name": "owner","type": "address"},{"indexed": true,"internalType": "address","name": "approved","type": "address"},{"indexed": true,"internalType": "uint256","name": "tokenId","type": "uint256"}],"name": "Approval","type": "event"},{"anonymous": false,"inputs": [{"indexed": true,"internalType": "address","name": "owner","type": "address"},{"indexed": true,"internalType": "address","name": "operator","type": "address"},{"indexed": false,"internalType": "bool","name": "approved","type": "bool"}],"name": "ApprovalForAll","type": "event"},{"inputs": [{"internalType": "address","name": "to","type": "address"},{"internalType": "uint256","name": "tokenId","type": "uint256"}],"name": "approve","outputs": [],"stateMutability": "nonpayable","type": "function"},{"inputs": [{"internalType": "string","name": "tokenURI","type": "string"},{"internalType": "bytes","name": "bytesId","type": "bytes"}],"name": "assign","outputs": [],"stateMutability": "nonpayable","type": "function"},{"anonymous": false,"inputs": [{"indexed": true,"internalType": "uint256","name": "tokenId","type": "uint256"},{"indexed": true,"internalType": "address","name": "assignee","type": "address"},{"indexed": false,"internalType": "bytes","name": "bytesId","type": "bytes"}],"name": "Assigned","type": "event"},{"inputs": [{"internalType": "address","name": "from","type": "address"},{"internalType": "address","name": "to","type": "address"},{"internalType": "uint256","name": "tokenId","type": "uint256"}],"name": "safeTransferFrom","outputs": [],"stateMutability": "nonpayable","type": "function"},{"inputs": [{"internalType": "address","name": "from","type": "address"},{"internalType": "address","name": "to","type": "address"},{"internalType": "uint256","name": "tokenId","type": "uint256"},{"internalType": "bytes","name": "_data","type": "bytes"}],"name": "safeTransferFrom","outputs": [],"stateMutability": "nonpayable","type": "function"},{"inputs": [{"internalType": "address","name": "operator","type": "address"},{"internalType": "bool","name": "approved","type": "bool"}],"name": "setApprovalForAll","outputs": [],"stateMutability": "nonpayable","type": "function"},{"anonymous": false,"inputs": [{"indexed": true,"internalType": "address","name": "from","type": "address"},{"indexed": true,"internalType": "address","name": "to","type": "address"},{"indexed": true,"internalType": "uint256","name": "tokenId","type": "uint256"}],"name": "Transfer","type": "event"},{"inputs": [{"internalType": "address","name": "from","type": "address"},{"internalType": "address","name": "to","type": "address"},{"internalType": "uint256","name": "tokenId","type": "uint256"}],"name": "transferFrom","outputs": [],"stateMutability": "nonpayable","type": "function"},{"inputs": [{"internalType": "address","name": "owner","type": "address"}],"name": "balanceOf","outputs": [{"internalType": "uint256","name": "","type": "uint256"}],"stateMutability": "view","type": "function"},{"inputs": [{"internalType": "bytes","name": "bytesId","type": "bytes"}],"name": "exist","outputs": [{"internalType": "bool","name": "","type": "bool"}],"stateMutability": "view","type": "function"},{"inputs": [{"internalType": "uint256","name": "tokenId","type": "uint256"}],"name": "getApproved","outputs": [{"internalType": "address","name": "","type": "address"}],"stateMutability": "view","type": "function"},{"inputs": [{"internalType": "address","name": "owner","type": "address"},{"internalType": "address","name": "operator","type": "address"}],"name": "isApprovedForAll","outputs": [{"internalType": "bool","name": "","type": "bool"}],"stateMutability": "view","type": "function"},{"inputs": [],"name": "name","outputs": [{"internalType": "string","name": "","type": "string"}],"stateMutability": "view","type": "function"},{"inputs": [{"internalType": "uint256","name": "tokenId","type": "uint256"}],"name": "ownerOf","outputs": [{"internalType": "address","name": "","type": "address"}],"stateMutability": "view","type": "function"},{"inputs": [{"internalType": "bytes4","name": "interfaceId","type": "bytes4"}],"name": "supportsInterface","outputs": [{"internalType": "bool","name": "","type": "bool"}],"stateMutability": "view","type": "function"},{"inputs": [],"name": "symbol","outputs": [{"internalType": "string","name": "","type": "string"}],"stateMutability": "view","type": "function"},{"inputs": [{"internalType": "uint256","name": "tokenId","type": "uint256"}],"name": "tokenURI","outputs": [{"internalType": "string","name": "","type": "string"}],"stateMutability": "view","type": "function"}];
-const CONTRACT_OWNER = CONTRACT_OWNER_ADDRESS;
+const CONTRACT_OWNER = "0xf1E424E818F2182ED5033a755A52f92c77c30753";
 
 //create and save new plot
 exports.request = async (req, res) => {
@@ -22,9 +22,9 @@ exports.request = async (req, res) => {
     return;
   }
 
-  const address = req.body.address;
-  const chain = req.body.chain;  
-  const network = req.body.network;
+  const address = req.body.paddress;
+  const chain = req.body.pchain;  
+  const network = req.body.pnetwork;
 
   try {
     const result = await Moralis.Auth.requestMessage({
@@ -102,10 +102,10 @@ exports.transferToken = async (req, res) => {
   
   const CONTRACT_ADDRESS = "0x07B3684aE65413027d38776145CD78536cC74b89";  
 
-  const address = req.body.address;
-  const amount = req.body.amount;
+  const vaddress = req.body.address;
+  const vamount = req.body.amount;
 
-  if (amount > 100 * 10 ** 18) {
+  if (vamount > 100 * 10 ** 18) {
     res.status(400).send({
       result: "KO",
       msg: "Too many crystals!"
@@ -118,14 +118,14 @@ exports.transferToken = async (req, res) => {
 
   const contract = new web3.eth.Contract(ABI, CONTRACT_ADDRESS);
 
-  let data = contract.methods.transfer(address, amount).encodeABI();
+  let vdata = contract.methods.transfer(vaddress, vamount).encodeABI();
   let nGas = web3.utils.toHex(100000);
 
   let txObj = {
     "gas": nGas,
     "to": CONTRACT_ADDRESS,
     "value": 0x00,
-    "data": data,
+    "data": vdata,
     "from": CONTRACT_OWNER
   }
 
@@ -168,13 +168,13 @@ exports.transferMatic = async (req, res) => {
     return;
   }
 
-  const SENDER = ADDRESS_THAT_SEND_MATIC_TO_PLAYER;
+  const SENDER = "0xf1E424E818F2182ED5033a755A52f92c77c30753";
   
 
-  const address = req.body.address;
-  const amount = req.body.amount;
+  const vaddress = req.body.address;
+  const vamount = req.body.amount;
 
-  if (amount > 0.002 * 10**18) {
+  if (vamount > 0.002 * 10**18) {
     res.status(400).send({
       result: "KO",
       msg: "Too many tokens!"
@@ -189,8 +189,8 @@ exports.transferMatic = async (req, res) => {
 
   let txObj = {
     "gas": nGas,
-    "to": address,
-    "value": amount,
+    "to": vaddress,
+    "value": vamount,
     "from": SENDER,
     "chainId": 80001
   }
@@ -278,8 +278,8 @@ exports.savePlotToIPFS = async (req, res) => {
   
   const abi = [
     {
-      path: req.body.path,
-      data: req.body.content
+      path: req.body.ppath.toString(),
+      content: req.body.data.toString()
     },
   ];
 
@@ -291,8 +291,8 @@ exports.savePlotToIPFS = async (req, res) => {
     res.status(200).send({
       res: "OK",
       msg: {
-        "ipfs": response.jsonResponse[0].path,
-        "hash": response.jsonResponse[0].path.split('/')[4]
+        ipfs: response.jsonResponse[0].path,
+        hash: response.jsonResponse[0].path.split('/')[4]
       }
     });
 
