@@ -4,23 +4,10 @@ const app = express();
 
 const config = require("./config/config.js");
 
-const MoralisDapp = require('moralis');
-
-const Moralis = MoralisDapp.default;
-
 // var corsOptions = {
 //   origin: "http://127.0.0.1:5500"
 // };
 
-try {  
-  Moralis.start({
-    apiKey: config.MORALIS_API_KEY,
-   });
-} catch(err) {
-  console.log("Moralis is not running correctly", err);
-}
-
-console.log("Moralis is running");
 
 //app.use(cors(corsOptions));
 app.use(cors()); 
@@ -45,7 +32,7 @@ db.mongoose.connect(
 });
 
 require("./routes/plot.routes")(app);
-require("./routes/moralis.routes")(app);
+require("./routes/web3.routes")(app);
 
 //set portlisten for request
 app.listen(config.PORT, () => {
