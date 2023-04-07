@@ -375,17 +375,17 @@ function showLand() {
 
 function loadUserData(data) {
 
-	console.log("data", data);
+	
+	try{
 	const metadata = JSON.parse(data.metadata);
 	const ipfs = data.ipfs;
-
+	console.log("metadata", metadata);
 	land.tile.x = metadata.PlotX;
 	land.tile.y = metadata.PlotY;
 	land.absPosition.x = metadata.LocationX;
 	land.absPosition.Y = metadata.LocationY;
 	land.position.x = metadata.LocationX + background.position.x;
 	land.position.y = metadata.LocationY + background.position.y;
-	land.imageHash = metadata.imageHash;
 	land.imageIpfs = metadata.imageIpfs;
 
 	land.ipfs = ipfs;
@@ -398,7 +398,9 @@ function loadUserData(data) {
 
 	claimed = true;
 	drawLandRect = true;
-
+	} catch(e) {
+		console.log("err", e);
+	}
 }
 
 function setFlyingObj() {
