@@ -1,7 +1,7 @@
 {
-  "name": "DC3Land",
+  "name": "dc3land",
   "version": "1.0.0",
-  "description": "DC3Land crypto NFT game",
+  "description": "Web3 game",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,8 +11,8 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.1",
+    "ipfs-http-client": "^50.1.2",
     "mongoose": "^6.5.0",
-    "moralis": "^2.18.0",
     "web3": "^1.8.2"
   }
 }
