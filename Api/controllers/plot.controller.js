@@ -24,7 +24,7 @@ exports.create = (req, res) => {
     .then(data => {
       res.status(201).send({
         res: "OK",
-        msg: "Insert successfully"
+        msg: "Insert success"
       });
     })
     .catch(err => {
@@ -51,7 +51,7 @@ exports.findByAddress = (req, res) => {
   Plot.findOne({address: address})
     .then(data => {
       if (!data) {
-        res.status(400).send({
+        res.status(200).send({
           res: "KO",
           msg: "Plot not found"
         });
@@ -63,7 +63,7 @@ exports.findByAddress = (req, res) => {
       }
     })
     .catch(err => {
-        res.status(400).send({
+        res.status(500).send({
           res: "KO",
           msg: "Error getting data"
         });
