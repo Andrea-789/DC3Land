@@ -6,7 +6,7 @@ Crypto Game to interact with Smart Contracts and save data in IPFS.
 - Basic understanding of Tokens and NFTs
 - Crypto Wallet (game optimized for Metamask)
 - MongoDb account
-- Moralis.io account
+- Infura.io account
 ## Tools
 - Code Editor (I've used Visual Studio Code)
 - Remix or any framework to deploy on Polygon Network
@@ -20,16 +20,21 @@ Crypto Game to interact with Smart Contracts and save data in IPFS.
 	- Pokémon JavaScript Game Tutorial with HTML Canvas by Chris Courses
 	  https://www.youtube.com/watch?v=yP5DKzriqXA
 	  
-Thanks guys
+Thank you guys
 
 You can see a short video here https://www.youtube.com/watch?v=PxhriJlM2nE
 
 Live demo here https://www.dc3.space/dc3land/
 
 The game is composed by a frontend and a Node.js backend (api folder)
-To make it works insert your data in the backend server, edit config.js file in api/config. You need a Moralis and MongoDb account.
-In moralis.controller.js insert your wallet private key (I've used Metamask) and the Token's Contract owner address.
+To make it works insert your data in the backend server, edit config.js file in api/config. You need an Infura and MongoDb account.
+In web3.controller.js insert your wallet private key (I've used Metamask) and the Token's Contract owner address.
 In transferMatic function insert the sender address that will send Matic to the player. I've used the contract owner address.
+
+In frontend in js/web3/contractToken.js insert the contract addresses
+In web3Engine.js change the welcomeMsg as you wish and change the image to send to metamask
+In js/message.js change the welcome string as you wish
+
 For Mumbai faucet (Polygon test chain) just search on the internet, they're free.
 
 Install Node.js if you haven't and then go in api folder with a terminal and install the node packets with "npm i"
