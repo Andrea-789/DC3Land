@@ -1,5 +1,4 @@
-const serverUrl = 'https://localhost:1337/api';
-const appId = YOUR_APP_ID;
+const serverUrl = 'http://localhost:1337/api';
 
 let userAddress = "";
 let web3 = "";
@@ -8,6 +7,7 @@ const handleApiPost = async (endpoint, params) => {
 	const result = await axios.post(`${serverUrl}/${endpoint}`, params, {
 		headers: {
 			'Content-Type': 'application/json',
+			'Access-Control-Allow-Origin' : '*'
 		},
 	});
 
@@ -25,25 +25,6 @@ const handleApiGet = async (endpoint) => {
 	return result.data;
 };
 
-const requestMessage = (account, networkType, chain) =>
-	handleApiPost('moralis/request-message', {
-		address: account,
-		chain: chain,
-		network: networkType,
-		DOMAIN: 'dc3.space',
-		STATEMENT: 'Please sign this message to confirm your identity.',
-		URI: 'https://dc3.space/dc3land',
-		EXPIRATION_TIME: '2024-01-01T00:00:00.000Z',
-		TIMEOUT: 30
-	});
-
-const verifyMessage = (message, signature, networkType) =>
-	handleApiPost('moralis/sign-message', {
-		message,
-		signature,
-		networkType,
-	});
-
 async function login() {
 
 	if (userAddress != "")
@@ -53,32 +34,24 @@ async function login() {
 		return;
 
 	web3 = new Web3(window.ethereum);
-	const provider = web3.currentProvider;
 
 	const accounts = await window.ethereum.request(
 		{ method: "eth_requestAccounts" }
 	);
 
-	let chain = "0x1";		//Eth main net
+	await getAccount()
+	.then(function(account){
+		userAddress = account;
+	})
+	.catch(function(err){
+			console.log(err);            
+	})      
 
-	userAddress = accounts[0];
+	const welcomeMsg = `Welcome in dc3.space
+	Please sign this message to confirm your identity`
 
-	const resMessage = await requestMessage(userAddress, 'evm', chain);
-	if (resMessage.res === "KO") {
-		console.log(resMessage.msg);
-		alert("Error in sending message to Metamask");
-	}
-
-	const signature = await web3.eth.personal.sign(
-		web3.utils.utf8ToHex(resMessage.msg),
-		userAddress);
-
-	const user = await verifyMessage(resMessage.msg, signature, 'evm');
-	if (user.res === "KO") {
-		console.log(user.msg);
-		alert("Error in verifying address");
-	}
-
+	await web3.eth.personal.sign(web3.utils.utf8ToHex(welcomeMsg), userAddress, "").then(console.log);
+	console.log("userAddress", userAddress);
 	//switch to mumbai chain
 	try {
 		await web3.givenProvider.request({
@@ -120,6 +93,17 @@ async function login() {
 			loadUserData(data);
 	}
 
+}
+
+const getAccount = async function() {
+	return new Promise(function(resolve, reject){
+			web3.eth.getAccounts(function(err, res){
+					if (!err)
+							resolve(res[0]);
+					else
+							reject("errore", err)
+			});
+	});
 }
 
 function checkWallet() {
@@ -188,7 +172,7 @@ async function transferToken(num) {
 		amount: web3.utils.toWei(num.toString(), 'ether')
 	}
 
-	const res = await handleApiPost('moralis/transfer-token', params);
+	const res = await handleApiPost('web3/transfer-token', params);
 	return res;
 }
 
@@ -203,14 +187,14 @@ async function transferMatic() {
 		amount: web3.utils.toWei('0.002', 'ether')
 	}
 
-	const res = await handleApiPost('moralis/transfer-matic', params);
+	const res = await handleApiPost('web3/transfer-matic', params);
 	return res;
 }
 
 //check if the plot is already assigned
 async function isPlotAssigned(plotID) {
 
-	const data = await handleApiGet(`moralis/plot-assigned/${plotID.toString()}`);
+	const data = await handleApiGet(`web3/plot-assigned/${plotID.toString()}`);
 
 	if (data.res == "OK")
 		return data.msg;
@@ -219,34 +203,11 @@ async function isPlotAssigned(plotID) {
 
 }
 
-//save plot image to IPFS
-async function savePlotImageToIPFS(plotID) {
-
-	let image = canvasLand.toDataURL("image/png");
-
-	const params = {
-		path: plotID + ".png",
-		data: image
-	}
-
-	const res = await handleApiPost('moralis/save-plot', params);
-
-	if (res.res === "OK") {
-		land.imageHash = res.msg.hash;
-		land.imageIpfs = res.msg.ipfs;
-		console.log(res.msg.hash, res.msg.ipfs);
-	}
-}
 
 //save plot data to IPFS
-async function savePlotDataToIPFS(metadata) {
+async function savePlotToIPFS(metadata) {
 
-	const params = {
-		path: "metadata.json",
-		data: btoa(JSON.stringify(metadata))
-	}
-
-	const res = await handleApiPost('moralis/save-plot', params);
+	const res = await handleApiPost('web3/save-plot', metadata);
 
 	if (res.res == "OK")
 		return res.msg;
@@ -269,7 +230,7 @@ async function assignPlot() {
 
 	if (!assigned) {
 
-		await savePlotImageToIPFS(plotID);
+		let data = canvasLand.toDataURL("image/png");
 
 		const metadata = {
 			"PlotID": plotID.toString(),
@@ -277,21 +238,38 @@ async function assignPlot() {
 			"PlotY": land.tile.y,
 			"LocationX": land.absPosition.x,
 			"LocationY": land.absPosition.y,
-			"imageHash": land.imageHash,
-			"imageIpfs": land.imageIpfs
+			"imageIpfs": land.imageIpfs,
+			"Image": data
 		}
 
-		const metadataFile = await savePlotDataToIPFS(metadata);
+		const metadataFile = await savePlotToIPFS(metadata);
+
+		if (metadataFile === null)  {
+			return {
+				result: "KO",
+				msg: "Save data error"
+			};			
+		}
+
 		const metadataURI = metadataFile.ipfs;
 		land.ipfs = metadataURI;
 
 		const res = await mint(metadataURI, plotID);
 
+		const metadataDb = {
+			"PlotID": plotID.toString(),
+			"PlotX": land.tile.x,
+			"PlotY": land.tile.y,
+			"LocationX": land.absPosition.x,
+			"LocationY": land.absPosition.y,
+			"imageIpfs": metadataFile.imageIpfs
+		}
+
 		try {
 			const params = {
-				address: userAddress,
-				metadata: JSON.stringify(metadata),
-				ipfs: metadataURI
+				address: userAddress.toString(),
+				metadata: JSON.stringify(metadataDb),
+				ipfs: metadataURI.toString()
 			}
 			
 			const data = await handleApiPost('plot', params);
